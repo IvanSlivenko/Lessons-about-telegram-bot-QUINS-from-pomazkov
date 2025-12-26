@@ -16,7 +16,7 @@
                     "isCorrect": true
                 },
                 {
-                    "id": 4,
+                    "id": 3,
                     "text": "Text 3",
                     "isCorrect": false
                 },
@@ -28,7 +28,7 @@
             ]
         },
         {
-            "id": 1,
+            "id": 2,
             "text": "Які відділи діють у компанії ",
             "hasOptions": true,
             "options": [
@@ -43,13 +43,40 @@
                     "isCorrect": true
                 },
                 {
-                    "id": 4,
+                    "id": 3,
                     "text": "Text 3",
                     "isCorrect": false
                 },
                 {
                     "id": 4,
                     "text": "Text 4",
+                    "isCorrect": false
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "text": "В структурі якого відділу - відділ Цех жетяних виробів",
+            "hasOptions": true,
+            "options": [
+                {
+                    "id": 1,
+                    "text": "Покрівля та фасад, Будівельні матеріали, УманьТеплоКомфорт, Вікна, Двері, Логістика, IT, Фінансовий відділ, Бухгалтерія, Маркетинг",
+                    "isCorrect": false
+                },
+                {
+                    "id": 2,
+                    "text": "Покрівля та фасад",
+                    "isCorrect": true
+                },
+                {
+                    "id": 3,
+                    "text": "Будівельні матеріали",
+                    "isCorrect": false
+                },
+                {
+                    "id": 4,
+                    "text": "Автономний",
                     "isCorrect": false
                 }
             ]
@@ -72,7 +99,7 @@
                     "isCorrect": true
                 },
                 {
-                    "id": 4,
+                    "id": 3,
                     "text": "Text 3",
                     "isCorrect": false
                 },
@@ -101,7 +128,7 @@
                     "isCorrect": true
                 },
                 {
-                    "id": 4,
+                    "id": 3,
                     "text": "Text 3",
                     "isCorrect": false
                 },
@@ -128,7 +155,7 @@
                     "isCorrect": true
                 },
                 {
-                    "id": 4,
+                    "id": 3,
                     "text": "Text 3",
                     "isCorrect": false
                 },

@@ -3,7 +3,8 @@ const { Bot, Keyboard, InlineKeyboard, GrammyError, HttpError } = require('gramm
 const { startCommand } = require('./commands')
 const { topicMap, buttonsList } = require('./consts')
 const { commandsList } = require('./consts/commandsList')
-const { getRandomQuestion, getCorrectAnswer, getCorrectAnswerTwo } = require('./utils')
+const { getRandomQuestion, getCorrectAnswer, getCorrectAnswerTwo, getCurrentAnswer } = require('./utils')
+const questions = require('./questionsOne.json')
 
 // Створюємо нового бота
 const bot = new Bot(process.env.BOT_API_KEY)
@@ -52,11 +53,19 @@ bot.hears(buttonsList,
 
         if (question.hasOptions) {
             const buttonRows = question.options.map((option) => [
-                InlineKeyboard.text(option.text, JSON.stringify({
-                    type: `${topicKey}-option`,
-                    isCorrect: option.isCorrect,
-                    questionId: question.id,
-                }),
+                InlineKeyboard.text(
+                    option.text,
+                    // JSON.stringify({
+                    //     type: `${topicKey}-option`,
+                    //     isCorrect: option.isCorrect,
+                    //     questionId: question.id,
+                    // }),
+                    JSON.stringify({
+                        type: `${topicKey}-option`,
+                        questionId: question.id,
+                        optionId: option.id
+                    }),
+
                 ),
             ]);
 
@@ -68,10 +77,11 @@ bot.hears(buttonsList,
                     // type: ctx.message.text,
                     type: topicKey,
                     questionId: question.id,
+                    optionId: option.id
                 }))
         }
 
-        await ctx.reply(question.text, {
+        await ctx.reply(`Увага запитання:\n---------------------\n ${question.text}`, {
             reply_markup: inlineKeyboard
         })
     }
@@ -93,15 +103,25 @@ bot.on('callback_query:data', async (ctx) => {
         return;
     }
 
-    if (callbackData.isCorrect) {
-        await ctx.reply('Вірно ')
-        await ctx.answerCallbackQuery()
-        return
-    }
+    // if (callbackData.isCorrect) {
+    //     await ctx.reply('Вірно. Можете знову обрати тему ')
+    //     await ctx.answerCallbackQuery()
+    //     return
+    // }
 
     // const answer = getCorrectAnswer(callbackData.type.split('-')[0], callbackData.questionId);
     const answer = getCorrectAnswerTwo(callbackData.type.split('-')[0], callbackData.questionId);
-    await ctx.reply(`Не вірно.\n --------------------------\n Вірна відповідь:\n ===============\n ${answer.text}`);
+    const currentAnswer = getCurrentAnswer(callbackData.type.split('-')[0], callbackData.questionId, callbackData.optionId);
+
+    if (currentAnswer.isCorrect) {
+        await ctx.reply(`Браво\n-----------------\nВірна відповідь:\n ===============\n ${answer.text}`)
+        await ctx.reply('Можете знову обрати тему')
+
+    } else {
+        await ctx.reply(`Відповідь:\n--------------------------\n ${currentAnswer.text}\n--------------------------\nНе вірнa.\n ===============\nВірна відповідь:\n ===============\n ${answer.text}`);
+        await ctx.reply('Поміркуйте')
+    }
+
     await ctx.answerCallbackQuery();
 })
 

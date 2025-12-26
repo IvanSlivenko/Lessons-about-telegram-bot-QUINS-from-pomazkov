@@ -43,5 +43,17 @@ const getCorrectAnswerTwo = (topicKey, questionId) => {
 }
 
 
-module.exports = { getRandomQuestion, getCorrectAnswer, getCorrectAnswerTwo }
+
+const getCurrentAnswer = (topicKey, questionId, optionId) => {
+    const topic = questions[topicKey]
+    if (!topic) return null
+
+    const question = topic.find(q => q.id === questionId)
+    if (!question) return null
+
+    return question.options.find(o => o.id === optionId)
+}
+
+
+module.exports = { getRandomQuestion, getCorrectAnswer, getCorrectAnswerTwo, getCurrentAnswer }
 
