@@ -33,7 +33,10 @@ bot.hears(['1C', 'Бізнес-процеси', 'Події 1С у бізнес-
 
     async (ctx) => {
         const inlineKeyboard = new InlineKeyboard()
-            .text('Отримати відповідь', 'getAnswer')
+            .text('Отримати відповідь', JSON.stringify({
+                type: ctx.message.text,
+                questionId: 1,
+            }))
             .text('Відміна', 'cancel');
 
         await ctx.reply(`Що таке ${ctx.message.text}`, {
