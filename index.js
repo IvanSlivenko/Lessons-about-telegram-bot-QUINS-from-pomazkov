@@ -3,7 +3,7 @@ const { Bot, Keyboard, InlineKeyboard, GrammyError, HttpError } = require('gramm
 const { startCommand } = require('./commands')
 const { topicMap, buttonsList } = require('./consts')
 const { commandsList } = require('./consts/commandsList')
-const { getRandomQuestion, getCorrectAnswer, getCorrectAnswerTwo, getCurrentAnswer } = require('./utils')
+const { getRandomQuestion, getCorrectAnswer, getCorrectAnswerTwo, getCurrentAnswer, getCorrectAnswerThry, getCurrentQuestion } = require('./utils')
 const questions = require('./questionsOne.json')
 
 // Створюємо нового бота
@@ -39,7 +39,6 @@ bot.hears(buttonsList,
         // console.log('--------text---------', ctx.message.text);
         // console.log('--------topicMap---------', topicMap);
 
-
         const topicKey = topicMap[ctx.message.text]
 
         if (!topicKey) {
@@ -47,7 +46,7 @@ bot.hears(buttonsList,
             return
         }
 
-        const question = getRandomQuestion(topicKey)
+        const { question, questionTopic } = getRandomQuestion(topicKey)
 
         let inlineKeyboard;
 
@@ -61,7 +60,8 @@ bot.hears(buttonsList,
                     //     questionId: question.id,
                     // }),
                     JSON.stringify({
-                        type: `${topicKey}-option`,
+                        // type: `${topicKey}-option`,
+                        type: `${questionTopic}-option`,
                         questionId: question.id,
                         optionId: option.id
                     }),
@@ -75,9 +75,9 @@ bot.hears(buttonsList,
             inlineKeyboard = new InlineKeyboard()
                 .text('Отримати відповідь', JSON.stringify({
                     // type: ctx.message.text,
-                    type: topicKey,
+                    // type: topicKey,
+                    type: questionTopic,
                     questionId: question.id,
-                    optionId: option.id
                 }))
         }
 
@@ -92,13 +92,19 @@ bot.on('callback_query:data', async (ctx) => {
 
     const callbackData = JSON.parse(ctx.callbackQuery.data)
 
+
+
     if (!callbackData.type.includes('option')) {
         // const answer = getCorrectAnswer(callbackData.type, callbackData.questionId);
-        const answer = getCorrectAnswerTwo(callbackData.type, callbackData.questionId);
-        await ctx.reply(answer.text, {
+        // const answer = getCorrectAnswerTwo(callbackData.type, callbackData.questionId, callbackData.optionId);
+        const answer = getCorrectAnswerThry(callbackData.type, callbackData.questionId);
+        const currentQustetion = getCurrentQuestion(callbackData.type, callbackData.questionId, callbackData.optionId);
+
+        await ctx.reply(`На запитання:\n--------------------\n${currentQustetion}\n--------------------\nВідповідь :\n==============\n${answer}`, {
             parse_mode: 'HTML',
             disable_web_page_preview: true,
         })
+        await ctx.reply('Можете знову обрати тему')
         await ctx.answerCallbackQuery()
         return;
     }
@@ -110,7 +116,7 @@ bot.on('callback_query:data', async (ctx) => {
     // }
 
     // const answer = getCorrectAnswer(callbackData.type.split('-')[0], callbackData.questionId);
-    const answer = getCorrectAnswerTwo(callbackData.type.split('-')[0], callbackData.questionId);
+    const answer = getCorrectAnswerTwo(callbackData.type.split('-')[0], callbackData.questionId, callbackData.optionId);
     const currentAnswer = getCurrentAnswer(callbackData.type.split('-')[0], callbackData.questionId, callbackData.optionId);
 
     if (currentAnswer.isCorrect) {

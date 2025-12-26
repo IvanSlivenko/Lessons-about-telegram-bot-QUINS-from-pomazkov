@@ -5,7 +5,8 @@ const startCommand = async (ctx) => {
     const startKeyboard = new Keyboard()
         .text('Структура компанії').row()
         .text('Бізнес-процеси').row()
-        .text('Програмне забезпечення')
+        .text('Програмне забезпечення').row()
+        .text('Випадкове питання')
         .resized()
 
 
