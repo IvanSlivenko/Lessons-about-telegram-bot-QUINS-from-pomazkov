@@ -16,6 +16,8 @@ npm install  grammy dotenv
 
 npm install nodemon
 
+npm install random-js
+
 
 -----------------------------------------
 00 : 24 : 03
