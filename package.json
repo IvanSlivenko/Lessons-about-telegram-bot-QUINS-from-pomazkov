@@ -1,0 +1,17 @@
+{
+  "name": "lessons-about-telegram-bot-quins-from-pomazkov",
+  "version": "1.0.0",
+  "description": "Lessons about telegram bot QUINS from pomazkov",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js "
+  },
+  "author": "Ivan Slivenko",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "grammy": "^1.38.4",
+    "nodemon": "^3.1.11"
+  }
+}

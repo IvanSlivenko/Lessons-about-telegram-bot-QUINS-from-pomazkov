@@ -1,0 +1,32 @@
+https://youtu.be/BQr9u6Bb_mE
+
+-----------------------------------------
+TelEducationbot
+TelEducation_bot
+
+.....................................................
+Use this token to access the HTTP API:
+7463500298:AAHjMKvQ4rXGzRl7ABbokCmHrw8Oqxtr0m4
+....................................................
+
+
+npm init - creted package.json
+
+npm install  grammy dotenv
+
+npm install nodemon
+
+
+-----------------------------------------
+00 : 00 : 00
+
+=========================
+git status
+git diff
+git add .
+git commit -m "any"
+git push
+=========================
+
+npm run start
+
