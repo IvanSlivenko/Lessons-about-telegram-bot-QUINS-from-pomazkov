@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { Bot, Keyboard, InlineKeyboard, GrammyError, HttpError } = require('grammy')
-const { startCommand, statsCommand } = require('./commands')
+const { startCommand, statsCommand, devInfo } = require('./commands')
 const { topicMap, buttonsList } = require('./consts')
 const { commandsList } = require('./consts/commandsList')
 const { getRandomQuestion, getCorrectAnswer, getCorrectAnswerTwo, getCurrentAnswer, getCorrectAnswerThry, getCurrentQuestion } = require('./utils')
@@ -17,6 +17,8 @@ bot.api.setMyCommands(commandsList)
 bot.command('start', startCommand)
 
 bot.command('stats', statsCommand)
+
+bot.command('devinfo', devInfo)
 
 
 
