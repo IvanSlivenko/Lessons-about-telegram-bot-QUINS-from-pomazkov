@@ -1,10 +1,12 @@
 require('dotenv').config();
 const { Bot, Keyboard, InlineKeyboard, GrammyError, HttpError } = require('grammy')
-const { startCommand } = require('./commands')
+const { startCommand, statsCommand } = require('./commands')
 const { topicMap, buttonsList } = require('./consts')
 const { commandsList } = require('./consts/commandsList')
 const { getRandomQuestion, getCorrectAnswer, getCorrectAnswerTwo, getCurrentAnswer, getCorrectAnswerThry, getCurrentQuestion } = require('./utils')
 const questions = require('./questionsOne.json')
+const { recordAnswer } = require('./stats')
+
 
 // Створюємо нового бота
 const bot = new Bot(process.env.BOT_API_KEY)
@@ -13,6 +15,9 @@ const bot = new Bot(process.env.BOT_API_KEY)
 bot.api.setMyCommands(commandsList)
 
 bot.command('start', startCommand)
+
+bot.command('stats', statsCommand)
+
 
 
 //----------------------------------------------- var 1
@@ -127,7 +132,17 @@ bot.on('callback_query:data', async (ctx) => {
         await ctx.reply(`Відповідь:\n--------------------------\n ${currentAnswer.text}\n--------------------------\nНе вірнa.\n ===============\nВірна відповідь:\n ===============\n ${answer.text}`);
         await ctx.reply('Поміркуйте')
     }
+    //----------------------------------------------------
+    const userId = ctx.from.id
+    const topic = callbackData.type.split('-')[0]
 
+    recordAnswer({
+        userId,
+        topic,
+        isCorrect: currentAnswer.isCorrect
+    })
+
+    //---------------------------------------------------
     await ctx.answerCallbackQuery();
 })
 
